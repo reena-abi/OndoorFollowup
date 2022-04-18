@@ -1,0 +1,393 @@
+﻿@model AfluexFollowUpDemo.Models.Procpect
+@{
+    ViewBag.Title = "Procpect";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-xl-12 mx-auto">
+@using (Html.BeginForm("Procpect", "Procpect", FormMethod.Post, new {@id = "signupFrom", enctype = "multipart/form-data" }))
+{
+        <div class="card">
+            <div class="card-body">
+                @TempData["ProcpectError"]
+                <div class="border p-4 rounded">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Contact Person <span style="color: red">*</span></label>
+                            @Html.TextBoxFor(m => m.ContactPerson, new { @class = "form-control", @placeholder = "Contact Person" })
+                            @Html.HiddenFor(m => m.Pk_ProcpectId)
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Contact Email ID</label>
+                            @Html.TextBoxFor(m => m.ContactEmailId, new { @class = "form-control", @Placeholder = "Contact EmailId" })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Contact Number<span style="color: red">*</span></label>
+                            @Html.TextBoxFor(m => m.ContactNo, new { @class = "form-control", @Placeholder = "Enter Contact No.", @onkeypress = "return isNumber(event)", @maxlength = "10" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Industry CategoryId <span style="color: red">*</span></label>
+                            @Html.DropDownListFor(m => m.Fk_IndustryCategoryId, new SelectList(ViewBag.ddlcategory, "value", "text"), new { @class = "form-select" })
+                          
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">
+                                Company Name  <span style="color: red">*</span>
+                            </label>
+                            @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control", @Placeholder = "Company Name" })
+                        </div>
+                        <div class="col-md-4">
+                            <label for="formFile" class="form-label">
+                                Company Contact No
+                                <span style="color: red">*</span>
+                            </label>
+                           @Html.TextBoxFor(m => m.CompanyContactNo, new { @class = "form-control", @Placeholder = "Company Contact No.", @onkeypress = "return isNumber(event)", @maxlength = "10" })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Address<span style="color: red">*</span></label>
+                            @Html.TextAreaFor(m => m.Address, new { @class = "form-control", @Placeholder = " Address", })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label"> Pincode<span style="color: red">*</span></label>
+                            @Html.TextBoxFor(m => m.Pincode, new { @class = "form-control", @Placeholder = "Pincode", @onchange = "return getstatecity()", @onkeypress = "return isNumber(event)", @maxlength = "6" })
+                        </div>
+                        <div class="col-md-4">
+                            <label for="formFile" class="form-label">
+                                State
+                            </label>
+                            @Html.TextBoxFor(m => m.State, new { @class = "form-control", @Placeholder = "State", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">City</label>
+                            @Html.TextBoxFor(m => m.City, new { @class = "form-control", @Placeholder = " City", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Designation <span style="color: red">*</span></label>
+                            @Html.TextBoxFor(m => m.Designation, new { @class = "form-control", @Placeholder = "Designation" })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">WebSite </label>
+                            @Html.TextBoxFor(m => m.WebSite, new { @class = "form-control", @Placeholder = "WebSite" })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">SkypeId</label>
+                            @Html.TextBoxFor(m => m.SkypeId, new { @class = "form-control", @Placeholder = "SkypeId", })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">FacebookId</label>
+                            @Html.TextBoxFor(m => m.FacebookId, new { @class = "form-control", @Placeholder = "FacebookId" })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">TwitterId </label>
+                            @Html.TextBoxFor(m => m.TwitterId, new { @class = "form-control", @Placeholder = "TwitterId" })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">LinkedInId </label>
+                            @Html.TextBoxFor(m => m.LinkedInId, new { @class = "form-control", @Placeholder = "LinkedInId", })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">ApproximateEmployee <span style="color: red">*</span></label>
+                            @Html.TextBoxFor(m => m.ApproximateEmployee, new { @class = "form-control", @Placeholder = "Approximate Employee" })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Approximate Company TurnOver <span style="color: red">*</span></label>
+                            @Html.TextBoxFor(m => m.ApproximateCompanyTurnOver, new { @class = "form-control", @Placeholder = "Approximate Company TurnOver", @onkeypress = "return isNumber(event)" })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">FirstInstruction Date <span style="color: red">*</span></label>
+                            @Html.TextBoxFor(m => m.FirstInstructionDate, new { @class = "form-control", @readonly="true" })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Expected Product Category <span style="color: red">*</span></label>
+                            @Html.DropDownListFor(m => m.Fk_ExpectedProductCategoryId, new SelectList(ViewBag.ddlExpected, "Value", "text"), new { @class = "form-select", @Placeholder = "Expected Product CategoryId" })
+                           
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Source <span style="color: red">*</span></label>
+                            @Html.DropDownListFor(m => m.Fk_SourceId, new SelectList(ViewBag.ddlSource, "Value", "text"), new { @class = "form-select", @Placeholder = "SourceId", })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Executive Name <span style="color: red">*</span></label>
+                            @Html.DropDownListFor(m => m.Fk_ExecutiveId, new SelectList(ViewBag.ddlExecutive, "Value", "text"), new { @class = "form-select", @Placeholder = "ExecutiveId" })
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Mode of InterAction <span style="color: red">*</span></label>
+                            @Html.DropDownListFor(m => m.Fk_ModeInterActionId, new SelectList(ViewBag.ddlInteraction, "Value", "text"), new { @class = "form-select" })
+                            @Html.HiddenFor(m => m.PK_InterActionId)
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Followup Date <span style="color: red">*</span></label>
+                            @Html.TextBoxFor(m => m.FollowupDate, new { @class = "form-control form-control-lg", @readonly = "true"  })
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Description<span style="color: red">*</span></label>
+                            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @Placeholder = "Description" })
+                            </Div>
+                        </div>
+
+                            <br />
+                            <div class="row">
+                                <div class="col-md-9">
+                                    @if (Model.Pk_ProcpectId != null)
+                                    {
+                                        <input type="submit" value="Update " class="btn btn-success" name="btnUpdate" id="btnUpdate" onclick="return validateupdate();" />
+
+                                    }
+                                    else
+                                    {
+
+                                        <input type="submit" name="btnSave" text="Save" class="btn btn-primary" value="Save" onclick="return validateservice();" />
+                                    <a href="/Procpect/Procpect" class="btn btn-dark">Reset</a>
+                                    }
+                                 </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+}
+    </div>
+</div>
+<script>
+    // Date Picker
+    //jQuery('.mydatepicker, #datepicker, .input-group.date').datepicker(
+    //    {
+    //        dateFormat: 'dd/mm/yy',
+
+    //        changeYear: true,
+    //        changeMonth: true
+
+    //    });
+
+</script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script>
+    function validateservice()
+    {
+        $(".errortext").removeClass("errortext");
+        if ($('#ContactPerson').val() == '')
+        {
+            $("#ContactPerson").addClass('errortext');
+            $('#ContactPerson').focus();
+            return false;
+
+        }
+        if($('#ContactEmailId').val()=='')
+        {
+            $("#ContactEmailId").addClass('errortext');
+            $('#ContactEmailId').focus();
+            return false;
+        }
+        if($('#ContactNo').val()=='')
+        {
+            $("#ContactNo").addClass('errortext');
+            $('#ContactNo').focus();
+            return false;
+        }
+        if ($('#Fk_IndustryCategoryId').val() == '0') {
+            $("#Fk_IndustryCategoryId").addClass('errortext');
+            $('#Fk_IndustryCategoryId').focus();
+            return false;
+        }
+        if ($('#CompanyName').val() == '') {
+            $("#CompanyName").addClass('errortext');
+            $('#CompanyName').focus();
+            return false;
+        }
+        if ($('#CompanyContactNo').val() == '') {
+            $("#CompanyContactNo").addClass('errortext');
+            $('#CompanyContactNo').focus();
+            return false;
+        }
+        if($('#Address').val()=='')
+        {
+            $("#Address").addClass('errortext');
+            $('#Address').focus();
+            return false;
+        }
+        if ($('#Pincode').val() == '') {
+            $("#Pincode").addClass('errortext');
+            $('#Pincode').focus();
+            return false;
+        }
+        if ($('#Designation').val() == '') {
+            $("#Designation").addClass('errortext');
+            $('#Designation').focus();
+            return false;
+        }
+        if ($('#FirstInstructionDate').val() == '') {
+            $("#FirstInstructionDate").addClass('errortext');
+            $('#FirstInstructionDate').focus();
+            return false;
+        }
+
+        if ($('#Fk_ExpectedProductCategoryId').val() == '0') {
+            $("#Fk_ExpectedProductCategoryId").addClass('errortext');
+            $('#Fk_ExpectedProductCategoryId').focus();
+            return false;
+        }
+        if ($('#Fk_SourceId').val() == '0') {
+            $("#Fk_SourceId").addClass('errortext');
+            $('#Fk_SourceId').focus();
+            return false;
+        }
+        if ($('#Fk_ExecutiveId').val() == '0') {
+            $("#Fk_ExecutiveId").addClass('errortext');
+            $('#Fk_ExecutiveId').focus();
+            return false;
+        }
+        if ($('#Fk_ModeInterActionId').val() == '0') {
+            $("#Fk_ModeInterActionId").addClass('errortext');
+            $('#Fk_ModeInterActionId').focus();
+            return false;
+        }
+        if ($('#FollowupDate').val() == '') {
+            $("#FollowupDate").addClass('errortext');
+            $('#FollowupDate').focus();
+            return false;
+        }
+        if ($('#Description').val() == '') {
+            $("#Description").addClass('errortext');
+            $('#Description').focus();
+            return false;
+        }
+        if ($('#ApproximateEmployee').val() == '') {
+            $("#ApproximateEmployee").addClass('errortext');
+            $('#ApproximateEmployee').focus();
+            return false;
+        }
+        return true;
+    }
+    function getstatecity() {
+
+        $.ajax({
+            url: "/Procpect/GetStateCity",
+            Type: "Get",
+            DataType: "JSON",
+            data: { PinCode: $("#Pincode").val() },
+            success: function (data) {
+                if (data.Result == "1") {
+                    $("#State").val(data.State);
+                    $("#City").val(data.City);
+                }
+                else {
+                    $("#State").val('');
+                    $("#City").val('');
+                    $("#PinCode").val('');
+                    alert('Invalid PinCode');
+                    $('#PinCode').focus();
+
+
+                }
+
+
+            }
+
+        });
+    }
+    function isNumber(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+          && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    $('#FollowupDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeMonth: true,
+        changeYear: true,
+    });
+    $('#FirstInstructionDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeMonth: true,
+        changeYear: true,
+    });
+
+    function validateupdate() {
+        $(".errortext").removeClass("errortext");
+        if ($('#ContactPerson').val() == '') {
+            $("#ContactPerson").addClass('errortext');
+            $('#ContactPerson').focus();
+            return false;
+        }
+
+        if ($('#ContactNo').val() == '') {
+            $("#ContactNo").addClass('errortext');
+            $('#ContactNo').focus();
+            return false;
+        }
+        if ($('#Fk_IndustryCategoryId').val() == '0') {
+            $("#Fk_IndustryCategoryId").addClass('errortext');
+            $('#Fk_IndustryCategoryId').focus();
+            return false;
+        }
+        if ($('#CompanyName').val() == '') {
+            $("#CompanyName").addClass('errortext');
+            $('#CompanyName').focus();
+            return false;
+        }
+        if ($('#CompanyContactNo').val() == '') {
+            $("#CompanyContactNo").addClass('errortext');
+            $('#CompanyContactNo').focus();
+            return false;
+        }
+        if ($('#Address').val() == '') {
+            $("#Address").addClass('errortext');
+            $('#Address').focus();
+            return false;
+        }
+        if ($('#Pincode').val() == '') {
+            $("#Pincode").addClass('errortext');
+            $('#Pincode').focus();
+            return false;
+        }
+        if ($('#Designation').val() == '') {
+            $("#Designation").addClass('errortext');
+            $('#Designation').focus();
+            return false;
+        }
+        if ($('#FirstInstructionDate').val() == '') {
+            $("#FirstInstructionDate").addClass('errortext');
+            $('#FirstInstructionDate').focus();
+            return false;
+        }
+
+        return true;
+    }
+
+
+</script>
+@*<script>
+  $( function() {
+      $("#FollowupDate").datepicker();
+  } );
+</script>*@
+

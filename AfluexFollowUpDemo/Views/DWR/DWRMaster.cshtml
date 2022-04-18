@@ -1,0 +1,464 @@
+﻿@model AfluexFollowUpDemo.Models.DWR
+@{
+    ViewBag.Title = "DWRMaster";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using (Html.BeginForm("DWRMaster", "DWR", FormMethod.Post, new { @id = "signupForm", enctype = "multipart/form-data" }))
+{
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+    <div class="breadcrumb-title pe-3">FollowUp</div>
+    <div class="ps-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 p-0">
+                <li class="breadcrumb-item">
+                    <a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">DWR</li>
+            </ol>
+        </nav>
+    </div>
+
+</div>
+<!--end breadcrumb-->
+
+<div class="row">
+    <div class="col-xl-12 mx-auto">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="border p-4 rounded">
+                    @if (@TempData["Error"] != null)
+                    {
+                        <div class="alert border-0 bg-danger alert-dismissible fade show py-2">
+                            <div class="d-flex align-items-center">
+                                <div class="fs-3 text-white">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <div class="text-white">@TempData["Error"]!</div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+                    @if (@TempData["Success"] != null)
+                    {
+                        <div class="alert border-0 bg-success alert-dismissible fade show py-2">
+                            <div class="d-flex align-items-center">
+                                <div class="fs-3 text-white">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <div class="text-white">@TempData["Success"]!</div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+                    <div class="row">
+                        <div class="col-md-4  mt-2">
+                            <label class="form-label">Prospect Name <span style="color: red">*</span></label>
+                            @Html.DropDownListFor(q => q.Fk_ProcpectId, new SelectList(ViewBag.ddlProspect, "Value", "Text"), new { @class = "form-select", @OnChange = "return OnchangeLead();" })
+                           
+                        </div>
+                        <div class="col-md-4  mt-2">
+                            <label class="form-label">Lead<span style="color: red">*</span></label>
+                            <span id="spContactEmailID"></span>
+                            @Html.DropDownListFor(q => q.Fk_LeadId, new SelectList(ViewBag.ddlLead, "Value", "Text"), new { @class = "form-select", @onchange = "return GetDWRdetails();" })
+                        </div>
+                        <div class="col-md-4  mt-2">
+                            <label class="form-label">Executive Name<span style="color: red">*</span></label>
+                            <label class="form-control" id="spFk_ExecutiveId">&nbsp;</label>
+                         
+                            @Html.DisplayFor(q => q.Fk_ExecutiveId)
+
+
+                        </div>
+                         <div class="col-md-4  mt-2">
+                            <label class="form-label">Source Name <span style="color: red">*</span></label>
+                             <label class="form-control" id="spFk_SourceId">&nbsp;</label>
+                          
+                            @Html.DisplayFor(q => q.Fk_SourceId)
+                        </div>
+                        <div class="col-md-4  mt-2">
+                            <label class="form-label"> First Instruction Date <span style="color: red">*</span></label>
+                            <span id=""></span>
+                            <label class="form-control" id="spFirstInstructionDate">&nbsp;</label>
+                            @Html.DisplayFor(q => q.FirstInstructionDate)
+                        </div>
+                        <div class="col-md-4  mt-2">
+                            <label for="formFile" class="form-label">Followup Date
+<span style="color: red">*</span></label>
+                           
+                            <label class="form-control" id="spFollowupDate">&nbsp;</label>
+                            @Html.DisplayFor(q => q.FollowupDate)
+                        </div>
+                    
+                        <div class="col-md-4  mt-2">
+                            <label class="form-label">Mode Of Inter Action<span style="color: red">*</span></label>
+                            @Html.DropDownListFor(q => q.Fk_ModeInterActionId, new SelectList(ViewBag.ddlInterAction, "Value", "Text"), new { @class = "form-select" })
+                        </div>
+
+                        <div class="col-md-4  mt-2">
+                            <label class="form-label">Next Followup date<span style="color: red">*</span></label>
+                            @Html.HiddenFor(m => m.Pk_DwrId)
+
+                            @Html.TextBoxFor(f => f.NextFollowupDate, new { @class = "form-control", @Placeholder = "Next Followup Date", @ReadOnly = "ReadOnly" })
+                        </div>
+                            <div class="col-md-4  mt-2">
+                                <label class="form-label"> Business Chance<span style="color: red">*</span></label>
+
+                                @Html.DropDownListFor(q => q.Fk_BusinessChanceId, new SelectList(ViewBag.ddlChance, "Value", "Text"), new { @class = "form-select" })
+                            </div>
+                            <div class="col-md-4  mt-2">
+                                <label for="formFile" class="form-label">
+                                    Submitted By Name<span style="color: red">*</span>
+                                </label>
+
+                                @Html.DropDownListFor(q => q.Fk_ExecutiveId, new SelectList(ViewBag.ddlName, "Value", "Text"), new { @class = "form-select" })
+                            </div>
+
+                            <div class="col-md-4  mt-2">
+                                <label class="form-label">Meeting Date<span style="color: red">*</span></label>
+                                @Html.TextBoxFor(f => f.MeetingDate, new { @class = "form-control", @Placeholder = "Meeting Date", @ReadOnly = "ReadOnly" })
+                            </div>
+                            <div class="col-md-4  mt-2">
+                                <label class="form-label"> Meeting Time <span style="color: red">*</span></label>
+                                <input type="time" id="PickUpTime" name="MeetingTime"  placeholder="Meeting Time" class="form-control">
+                                @*@Html.TextBoxFor(f => f.MeetingTime, new { @class = "form-control", @Placeholder = "Meeting Time" })*@
+                            </div>
+                            <div class="col-md-4  mt-2">
+                                <label class="form-label">Remark  <span style="color: red">*</span></label>
+
+                                @Html.TextAreaFor(f => f.Remark, new { @class = "form-control ", @Placeholder = "Description " })
+                            </div>
+
+                        </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-9">
+                            @if (Model != null)
+                            {
+                                <input type="submit" value="Update " class="btn btn-success" name="btnUpdate" onclick="return validateservice();" />
+
+                            }
+                            else
+                            {
+
+                                <input type="submit" value="Save " class="btn btn-success" name="btnSave" onclick="return validateservice();" />
+
+                           
+                            }
+                            
+                            <a href="/DWR/DWRMaster" class="btn btn-dark">Reset</a>
+                            @*<a href="/Master/CategoryList" class="btn btn-info">Back To List</a>*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <h5 class="mb-0">DWR Master Details</h5>
+                        @*<form class="ms-auto position-relative">
+                            <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-search"></i></div>
+                            <input class="form-control ps-5" type="text" placeholder="search">
+                        </form>*@
+                    </div>
+                    <div class="table-responsive mt-3">
+                        <table class="table table-bordered" id="example2">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th>S.N</th>
+                                    <th>Prospect Name</th>
+                                    <th>Lead</th>
+                                    <th>Next Followup Date</th>
+                                    <th>Remark</th>
+                                    <th>Business Chance</th>
+                                    <th>Mode Of Interaction</th>
+                                    <th>Executive Name</th>
+                                    <th>Meeting Date And Time</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody id="plccharge"></tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+<script src="~/assets/libs/jquery/dist/jquery.min.js"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js" type="text/javascript"></script>
+
+    <script>
+        // Date Picker
+        jQuery('.mydatepicker, #datepicker, .input-group.date').datepicker(
+            {
+                dateFormat: 'dd/mm/yy',
+
+                changeYear: true,
+                changeMonth: true
+
+            });
+        //function sumhrs() {
+        //    var smon = document.getElementById('PickUpTime').value;
+        //    var fmon = document.getElementById('DropTime').value;
+        //    var diff = 0;
+        //    if (smon && fmon) {
+        //        smon = ConvertToSeconds(smon);
+        //        fmon = ConvertToSeconds(fmon);
+        //        diff = Math.abs(fmon - smon);
+        //        if (diff > 10800) {
+        //            alert('you can not set drop time greater than 3 hrs !!')
+        //            $("#DropTime").addClass('errortext');
+        //            $("#DropTime").addClass('errortext');
+        //            $("#DropTime").val('');
+        //        }
+        //        console.log(diff);
+
+        //        //console.log('time difference is : ' + secondsTohhmmss(diff));
+        //    }
+
+        //    function ConvertToSeconds(time) {
+        //        var splitTime = time.split(":");
+        //        return splitTime[0] * 3600 + splitTime[1] * 60;
+        //    }
+        //}
+    </script>
+    <style>
+        .errortext {
+            border: 3px solid #dc3545;
+            border-color: #f7a5a5;
+        }
+    </style>
+    <script src="../../Scripts/jquery.min.js"></script>
+    @*  <script src="../Scripts/jquery.min.js"></script>*@
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+    <script>
+
+
+        //function isNumber(evt) {
+        //    var charCode = (evt.which) ? evt.which : evt.keyCode;
+        //    if (charCode != 46 && charCode > 31
+        //      && (charCode < 48 || charCode > 57))
+        //        return false;
+
+        //    return true;
+        //}
+        $('#InterractionDate').datepicker({
+            dateFormat: 'dd/mm/yy',
+            minDate: 0,
+            maxDate: '+1Y+6M',
+        })
+
+        function GetDWRdetails() {
+
+            var value = $('#Fk_LeadId').val();
+
+            $.ajax({
+                url: '/DWR/GetLeadDetailsByID', type: 'post', dataType: 'json',
+                data: { 'Pk_LeadeId': value, 'ProspectId': $('#Fk_ProcpectId').val() }, success: function (data) {
+                    if (data.Result == "Yes") {
+                        //alert(data.Result);
+
+                        //document.getElementById("spFk_ExpectedProductCategoryId").innerText = data.Fk_ExpectedProductCategoryId;
+                        document.getElementById("spFk_ExecutiveId").innerText = data.Fk_ExecutiveId;
+                        document.getElementById("spFk_SourceId").innerText = data.Fk_SourceId;
+                        document.getElementById("spFirstInstructionDate").innerText = data.FirstInstructionDate;
+                        document.getElementById("spFollowupDate").innerText = data.FollowupDate;
+                        document.getElementById("spFk_ModeInterActionId").innerText = data.Fk_ModeInterActionId;
+                        $('#ContactEmailId').val() = data.ContactEmailId;
+                        $('#ContactNo').val(data.ContactNo);
+                        $('#CompanyName').val(data.CompanyName);
+                        $('#Address').val(data.Address);
+                        $('#CompanyContactNo').val(data.CompanyContactNo);
+
+
+
+                    }
+                    else {
+                        // alert("Invalid Teacher LoginID");
+                        $('#Pk_ProcpectId').val('');
+                        $('#ContactEmailId').val('');
+                        $('#ContactNo').val('');
+                        $('#CompanyName').val('');
+                        $('#Address').val('');
+                        $('#CompanyContactNo').val('');
+
+                    }
+                }
+
+            });
+
+            var value = $('#Fk_LeadId').val();
+
+            var tr = [];
+            var j = 1;
+            $.ajax({
+                type: "GET",
+                url: "/DWR/ListDWR",
+
+                dataType: "json",
+                data: { Fk_LeadId: value },
+                success: function (data) {
+
+
+                    $('#plccharge').empty();
+                    for (var i = 0; i < data.lstDWR.length; i++) {
+                        tr.push('<tr>');
+                        tr.push("<td>" + j + "</td>");
+
+                        tr.push("<td><label id='txtFk_ProcpectId " + i + "' name='txtFk_ProcpectId " + i + "'>" + data.lstDWR[i].Fk_ProcpectId + "  </label></td>");
+                        tr.push("<td><label id='txtFk_LeadId " + i + "' name='Fk_LeadId " + i + "' >" + data.lstDWR[i].Fk_LeadId + " </label></td>");
+                        tr.push("<td><label id='txtNextFollowupDate " + i + "' name='txtNextFollowupDate " + i + "'>" + data.lstDWR[i].NextFollowupDate + "  </label></td>");
+                        tr.push("<td><label id='txtReemark " + i + "' name='txtReemark " + i + "'> " + data.lstDWR[i].Remark + " </label></td>");
+                        tr.push("<td><label id='txtFk_BusinessChanceId " + i + "' name='txtFk_BusinessChanceId " + i + "'> " + data.lstDWR[i].Fk_BusinessChanceId + "</label></td>");
+                        tr.push("<td><label id='txtFk_ModeInterActionId " + i + "' name='txtFk_ModeInterActionId " + i + "'>" + data.lstDWR[i].Fk_ModeInterActionId + "</label></td>");
+                        tr.push("<td><label id='txtFk_ExecutiveId " + i + "' name='txtFk_ExecutiveId " + i + "' >" + data.lstDWR[i].Fk_ExecutiveId + "</label></td>");
+                        tr.push("<td><label id='txtMeetingDatetime  " + i + "' name='txtMeetingDatetime " + i + "' >" + data.lstDWR[i].MeetingDate + " " + data.lstDWR[i].MeetingTime + "</label></td>");
+                        tr.push("<td style='display:none'><input type='hidden' value='" + data.lstDWR[i].Pk_DwrId + "' id='unitid_ " + i + "' name='unitid_ " + i + "'></td>");
+                        tr.push('</tr>');
+                        j++;
+
+                    }
+                    tr.push('<tr style="display:none">');
+                    tr.push("<td><input type='hidden' value='" + j + "' id='hdrows' name='hdrows'></td>");
+                    tr.push('</tr>');
+                    $('#plccharge').append($(tr.join('')));
+
+                },
+                error: function (xhr, status, error) {
+
+                }
+            });
+        }
+        function GetLeadDetailsByID() {
+
+            var value = $('#Pk_LeadeId').val();
+
+            $.ajax({
+                url: '/DWR/GetLeadDetailsByID', type: 'post', dataType: 'json',
+                data: { 'Pk_LeadeId': value }, success: function (data) {
+                    if (data.Result == "Yes") {
+                        //alert(data.Result);
+
+                        //document.getElementById("spFk_ExpectedProductCategoryId").innerText = data.Fk_ExpectedProductCategoryId;
+                        document.getElementById("spFk_ExecutiveId").innerText = data.Fk_ExecutiveId;
+                        document.getElementById("spFk_SourceId").innerText = data.Fk_SourceId;
+                        document.getElementById("spFirstInstructionDate").innerText = data.FirstInstructionDate;
+                        document.getElementById("spFollowupDate").innerText = data.FollowupDate;
+                        document.getElementById("spFk_ModeInterActionId").innerText = data.Fk_ModeInterActionId;
+                        $('#ContactEmailId').val() = data.ContactEmailId;
+                        $('#ContactNo').val(data.ContactNo);
+                        $('#CompanyName').val(data.CompanyName);
+                        $('#Address').val(data.Address);
+                        $('#CompanyContactNo').val(data.CompanyContactNo);
+
+
+
+                    }
+                    else {
+                        // alert("Invalid Teacher LoginID");
+                        $('#Pk_ProcpectId').val('');
+                        $('#ContactEmailId').val('');
+                        $('#ContactNo').val('');
+                        $('#CompanyName').val('');
+                        $('#Address').val('');
+                        $('#CompanyContactNo').val('');
+
+                    }
+                }
+
+            });
+
+        }
+
+        function validateservice() {
+            $(".errortext").removeClass("errortext");
+            if ($('#Fk_ProcpectId').val() == '0') {
+                $("#Fk_ProcpectId").addClass('errortext');
+                $('#Fk_ProcpectId').focus();
+                return false;
+            }
+            if ($('#Fk_LeadId').val() == '0') {
+                $("#Fk_LeadId").addClass('errortext');
+                $('#Fk_LeadId').focus();
+                return false;
+            }
+            if ($('#NextFollowupDate').val() == '') {
+                $("#NextFollowupDate").addClass('errortext');
+                $('#NextFollowupDate').focus();
+                return false;
+            }
+            if ($('#Remark').val() == '') {
+                $("#Remark").addClass('errortext');
+                $('#Remark').focus();
+                return false;
+            }
+            if ($('#Fk_ModeInterActionId').val() == '0') {
+                $("#Fk_ModeInterActionId").addClass('errortext');
+                $('#Fk_ModeInterActionId').focus();
+                return false;
+            }
+            if ($('#Fk_BusinessChanceId').val() == '0') {
+                $("#Fk_BusinessChanceId").addClass('errortext');
+                $('#Fk_BusinessChanceId').focus();
+                return false;
+            }
+            if ($('#Fk_ExecutiveId').val() == '0') {
+                $("#Fk_ExecutiveId").addClass('errortext');
+                $('#Fk_ExecutiveId').focus();
+                return false;
+            }
+            if ($('#MeetingDate').val() == '') {
+                $("#MeetingDate").addClass('errortext');
+                $('#MeetingDate').focus();
+                return false;
+            }
+            if ($('#MeetingTime').val() == '') {
+                $("#MeetingTime").addClass('errortext');
+                $('#MeetingTime').focus();
+                return false;
+            }
+
+
+            return true;
+        }
+
+        function OnchangeLead() {
+            var value = $('#Fk_ProcpectId').val();
+            $.ajax({
+                url: "/DWR/GetLeadByProspect",
+                Type: "Get",
+                DataType: "JSON",
+                data: { Fk_ProcpectId: value },
+                success: function (data) {
+
+                    $("#Fk_LeadId").html("");
+                    $("#Fk_LeadId").empty();
+                    $("#Fk_LeadId").append(
+                          $('<option></option>').val(0).html('--Select Lead--'));
+                    $.each(data.ddlLead, function (index, Shelfcount) {
+                        $("#Fk_LeadId").append(
+                              $('<option></option>').val(Shelfcount.Value).html(Shelfcount.Text));
+
+                    });
+                }
+            });
+
+        }
+        $('#NextFollowupDate').datepicker({
+            dateFormat: 'dd/mm/yy',
+            minDate: 0,
+            maxDate: '+1Y+6M',
+        })
+        $('#MeetingDate').datepicker({
+            dateFormat: 'dd/mm/yy'
+        })
+    </script>

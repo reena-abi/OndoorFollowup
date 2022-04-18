@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "GetProspecctList";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<h6 class="mb-0 text-uppercase">Get Prospect List</h6>
+<hr />
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <label class="form-label">Contact Person <span style="color: red">*</span></label>
+                <input class="form-control" type="text" placeholder="Enter Contact Person">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Contact Number</label>
+                <input class="form-control" type="text" placeholder="Enter Contact Number">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Company Name</label>
+                <input class="form-control" type="text" placeholder="Enter Company Name">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label" style="margin-top: 37px;">&nbsp;</label>
+                <input class="btn btn-info" type="submit" value="Get Details">
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="table-responsive">
+                <table id="example1" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Office</th>
+                            <th>Age</th>
+                            <th>Start date</th>
+                            <th>Salary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Tiger Nixon</td>
+                            <td>System Architect</td>
+                            <td>Edinburgh</td>
+                            <td>61</td>
+                            <td>2011/04/25</td>
+                            <td>$320,800</td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th>Office</th>
+                            <th>Age</th>
+                            <th>Start date</th>
+                            <th>Salary</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

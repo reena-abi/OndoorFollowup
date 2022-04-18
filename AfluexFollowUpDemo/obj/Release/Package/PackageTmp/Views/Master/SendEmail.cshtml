@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "SendEmail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header bg-dark text-white py-2 cursor-pointer">
+        <div class="d-flex align-items-center">
+            <div class="compose-mail-title">Send Email</div>
+            @*<div class="compose-mail-close ms-auto">x</div>*@
+            <a href="/Master/AddEmailTemplate" class="compose-mail-close ms-auto btn btn-dark">Add New Template
+
+</a>
+
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="email-form">
+           <div class="row">
+               <div class="col-md-6">
+                   <label class="form-label">Subject</label>
+                   <input type="text" class="form-control" placeholder="Subject" />
+               </div>
+              
+               <div class="col-md-6">
+                   <label for="formFile" class="form-label">Select File</label>
+                   <input class="form-control" type="file" id="formFile">
+               </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label">Select Template </label>
+               
+                    <select class="form-select"  required>
+                        <option selected disabled value="">Choose...Template</option>
+                        <option>...</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label">&nbsp;</label>
+                    <textarea class="form-control" placeholder="Message" rows="10" cols="10"></textarea>
+                </div>
+                <div class="mb-0">
+                    <div class="d-flex align-items-center">
+                        <div class="ms-2">
+                            <div class="btn-group">
+                                 <label class="form-label">&nbsp;</label>
+                                <input type="submit" name="save" value="Sent" class="btn btn-primary" />
+                            </div>
+                        </div>
+                        <div class="ms-2">
+                            <button type="button" class="btn border-0 btn-sm btn-white">
+                                <i class="lni lni-text-format"></i>
+                            </button>
+                            <button class="btn border-0 btn-sm btn-white" id="image-uploadify" type="file" accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" multiple>
+                                <i class='bx bx-link-alt'></i>
+                            </button>
+                            <button type="button" class="btn border-0 btn-sm btn-white">
+                                <i class="lni lni-emoji-tounge"></i>
+                            </button>
+                            <button type="button" class="btn border-0 btn-sm btn-white">
+                                <i class="lni lni-google-drive"></i>
+                            </button>
+                        </div>
+                        <div class="ms-auto">
+                            <button type="button" class="btn border-0 btn-sm btn-white">
+                                <i class="lni lni-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+<!--end compose mail-->
+<!--start email overlay-->
+<div class="overlay email-toggle-btn-mobile"></div>
+

@@ -1,0 +1,168 @@
+﻿@model AfluexFollowUpDemo.Models.EmployeeRegistration
+@{
+    ViewBag.Title = "EmployeeRegistration";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+    <div class="breadcrumb-title pe-3">Employee</div>
+    <div class="ps-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 p-0">
+                <li class="breadcrumb-item">
+                    <a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Employee</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<hr/>
+<!--end breadcrumb-->
+
+
+<div class="row">
+    @using (Html.BeginForm("EmployeeRegistration", "EmployeeRegistration", FormMethod.Post, new { @id = "signupForm", enctype = "multipart/form-data" }))
+    {
+        <div class="col-xl-12 mx-auto">
+
+            <div class="card">
+                <div class="card-body">
+                    
+                    <div class="border p-4 rounded">
+                        @if (@TempData["Success"] != null)
+                        {
+                            <div class="alert border-0 bg-success alert-dismissible fade show py-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="fs-3 text-white">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                    </div>
+                                    <div class="ms-3">
+                                        <div class="text-white">@TempData["Success"]!</div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        @if (@TempData["Error"] != null)
+                        {
+                            <div class="alert border-0 bg-danger alert-dismissible fade show py-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="fs-3 text-white">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                    </div>
+                                    <div class="ms-3">
+                                        <div class="text-white">@TempData["Error"]!</div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="form-label">User<span style="color: red">*</span></label>
+                                @Html.DropDownListFor(m => m.Fk_UserTypeId, new SelectList(ViewBag.ddlUserName, "Value", "Text"), new { @class = "form-select", })
+                                @Html.HiddenFor(m => m.Pk_Id)
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Name<span style="color: red">*</span></label>
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @Placeholder = "Enter Your Name" })
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Mobile No<span style="color: red">*</span></label>
+                                @Html.TextBoxFor(m => m.ContactNo, new { @class = "form-control", @Placeholder = "Enter Mobile No.", @onkeypress = "return isNumber(event)", @maxlength = "10" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="form-label">Email Id <span style="color: red">*</span></label>
+                                @Html.TextBoxFor(m => m.EmailId, new { @class = "form-control", @Placeholder = "Email ID", })
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label"> Address </label>
+                                @Html.TextAreaFor(m => m.Address, new { @class = "form-control", @Placeholder = "Address" })
+                            </div>
+                            <div class="col-md-4">
+                                <label for="formFile" class="form-label">File Upload</label>
+                                <input class="form-control" type="file" id="formFile" name="postedFile" onchange="loadFile_adhar(event)">
+                                <br />
+                                <img src="@Model.postedFile" height="100" width="100" id="postedFile" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-9">
+                                @if (Model.Pk_Id != null)
+                                {
+                                    <input type="submit" value="Update " class="btn btn-success" name="btnUpdate" onclick="return validateservice();" />
+
+                                }
+                                else
+                                {
+
+                                    <input type="submit" value="Save " class="btn btn-success" name="btnSave" onclick="return validateservice();" />
+
+                                      
+                                }
+                                <a href="/EmployeeRegistration/EmployeeRegistration" class="btn btn-dark">Reset</a>
+                                <a href="/EmployeeRegistration/EmpolyeeRegistrationList" class="btn btn-info">Back To List</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
+<script>
+
+
+    function isNumber(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+          && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+    var loadFile_adhar = function (event) {
+        var image = document.getElementById('postedFile');
+        image.src = URL.createObjectURL(event.target.files[0]);
+        $("#img").val(1);
+    };
+
+
+    function validateservice() {
+        $(".errortext").removeClass("errortext");
+        if ($('#Fk_UserTypeId').val() == '0') {
+            $("#Fk_UserTypeId").addClass('errortext');
+            $('#Fk_UserTypeId').focus();
+            return false;
+        }
+        if ($('#Name').val() == '') {
+            $("#Name").addClass('errortext');
+            $('#Name').focus();
+            return false;
+        }
+        if ($('#ContactNo').val() == '') {
+            $("#ContactNo").addClass('errortext');
+            $('#ContactNo').focus();
+            return false;
+        }
+        if ($('#EmailId').val() == '') {
+            $("#EmailId").addClass('errortext');
+            $('#EmailId').focus();
+            return false;
+        }
+        return true;
+    }
+
+</script>
+<style>
+    .errortext {
+        border: 3px solid #dc3545;
+        border-color: #f7a5a5;
+    }
+</style>

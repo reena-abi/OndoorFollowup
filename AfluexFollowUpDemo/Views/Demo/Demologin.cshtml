@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "Demologin";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using (Html.BeginForm("Demologin", "Demo", FormMethod.Post, new { @id = "Form" }))
+{
+
+    @TempData["Mgs"]
+<input type="text" id="usieid" name="usieid" placeholder="user name">
+<input type="submit" value="login" name="btnave"  id="btnave" />
+}

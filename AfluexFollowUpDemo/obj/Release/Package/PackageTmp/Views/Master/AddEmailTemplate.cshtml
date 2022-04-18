@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "AddEmailTemplate";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+        <div class="card">
+            <div class="card-header bg-dark text-white py-2 cursor-pointer">
+                <div class="d-flex align-items-center">
+                    <div class="compose-mail-title">Add Email Template</div>
+                    @*<div class="compose-mail-close ms-auto">x</div>*@
+                    <a href="/Master/SendEmail" class="compose-mail-close ms-auto btn btn-dark" >Sent Email</a>
+                  
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="email-form">
+                    @*<div class="mb-3">
+                        <input type="text" class="form-control" placeholder="To" />
+                    </div>*@
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="Subject" />
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" placeholder="Message" rows="10" cols="10"></textarea>
+                    </div>
+                    <div class="mb-0">
+                        <div class="d-flex align-items-center">
+                            <div class="">
+                                <div class="btn-group">
+                                   <input type="submit" name="save" value="Save" class="btn btn-primary"/>
+                                   </div>
+                            </div>
+                            <div class="ms-2">
+                                <button type="button" class="btn border-0 btn-sm btn-white">
+                                    <i class="lni lni-text-format"></i>
+                                </button>
+                                <button  class="btn border-0 btn-sm btn-white" id="image-uploadify" type="file" accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf" multiple>
+                                    <i class='bx bx-link-alt'></i>
+                                </button>
+                                <button type="button" class="btn border-0 btn-sm btn-white">
+                                    <i class="lni lni-emoji-tounge"></i>
+                                </button>
+                                <button type="button" class="btn border-0 btn-sm btn-white">
+                                    <i class="lni lni-google-drive"></i>
+                                </button>
+                            </div>
+                            <div class="ms-auto">
+                                <button type="button" class="btn border-0 btn-sm btn-white">
+                                    <i class="lni lni-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    <!--end compose mail-->
+    <!--start email overlay-->
+    <div class="overlay email-toggle-btn-mobile"></div>
+    <!--end email overlay </div>
+-->

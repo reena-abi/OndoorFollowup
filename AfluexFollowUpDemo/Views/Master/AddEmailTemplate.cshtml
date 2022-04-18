@@ -1,0 +1,133 @@
+﻿@model AfluexFollowUpDemo.Models.Master
+@{
+    ViewBag.Title = "AddEmailTemplate";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using (Html.BeginForm("AddEmailTemplate", "Master", FormMethod.Post, new { @id = "signupForm", enctype = "multipart/form-data" }))
+{
+        <div class="card">
+            @if (@TempData["Success"] != null)
+            {
+                <div class="alert border-0 bg-success alert-dismissible fade show py-2">
+                    <div class="d-flex align-items-center">
+                        <div class="fs-3 text-white">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="ms-3">
+                            <div class="text-white">@TempData["Success"]!</div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            @if (@TempData["Error"] != null)
+            {
+                <div class="alert border-0 bg-danger alert-dismissible fade show py-2">
+                    <div class="d-flex align-items-center">
+                        <div class="fs-3 text-white">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="ms-3">
+                            <div class="text-white">@TempData["Error"]!</div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            <div class="card-header bg-dark text-white py-2 cursor-pointer">
+                <div class="d-flex align-items-center">
+                    <div class="compose-mail-title">Add Email Template</div>
+                    @*<div class="compose-mail-close ms-auto">x</div>*@
+                    <a href="/Master/SendEmail" class="compose-mail-close ms-auto btn btn-dark" >Sent Email</a>
+                    <a href="/Master/EmailMaster" class="compose-mail-close ms-auto btn btn-dark">Email Master</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="email-form">
+                    @*<div class="mb-3">
+                        <input type="text" class="form-control" placeholder="To" />
+                    </div>*@
+                    <div class="mb-3">
+                        <label class="form-label">Subject  <span style="color: red">*</span></label>
+                        @Html.TextBoxFor(m => m.Subject, new { @class = "form-control", @placeholder = "Subject of Email" })
+                       
+                    </div>
+                    <div class="mb-3">
+                        <div id="emailbody"><p></p></div>
+                        @Html.HiddenFor(m => m.EmailBodyHTML)
+                    </div>
+                    <div class="mb-0">
+                        <div class="d-flex align-items-center">
+                            <div class="">
+                                <div class="btn-group">
+                                    <input type="submit" value="Save Template" name="btnSaveTemplate" class="btn btn-sm btn-success" onclick="return validateForm();" />
+                                   </div>
+                            </div>
+                          
+                            <div class="ms-auto">
+                                <a href="/Master/AddEmailTemplate" class="btn btn-dark">
+                                    Reset
+                                </a>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+}
+    <!--end compose mail-->
+    <!--start email overlay-->
+    <div class="overlay email-toggle-btn-mobile"></div>
+    <!--end email overlay </div>
+-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js" defer></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+
+
+<script>
+        $(document).ready(function () {
+            $("#divload").css({ 'display': 'none' });
+            $('#emailbody').summernote(
+            {
+                height: 150,
+                toolbar: [
+                  // [groupName, [list of button]]
+                  ['style', ['bold', 'italic', 'underline', 'clear']],
+                  ['font', ['strikethrough', 'superscript', 'subscript']],
+                  ['fontsize', ['fontsize']],
+                  ['para', ['ul', 'ol', 'paragraph']],
+                  ['height', ['height']]
+                ]
+            });
+        });
+
+        function validateForm() {
+            var emailBodyHTML = $('#emailbody').summernote('code');
+            $('#EmailBodyHTML').val(emailBodyHTML);
+
+            $(".errortext").removeClass("errortext");
+
+            if ($('#Subject').val() == '') {
+                $("#Subject").addClass('errortext');
+                $('#Subject').focus();
+                return false;
+            }
+            //if ($('#emailbody').val() == '') {
+            //    $("#emailbody").addClass('errortext');
+            //    $('#emailbody').focus();
+            //    return false;
+            //}
+
+        }
+</script>
+<style>
+    .errortext {
+        border: 1px solid #dc3545;
+        border-color: #f7a5a5;
+    }
+</style>

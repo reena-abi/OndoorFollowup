@@ -1,0 +1,177 @@
+﻿
+@{
+    ViewBag.Title = "Procpect";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-xl-12 mx-auto">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="border p-4 rounded">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Contact Person <span style="color: red">*</span></label>
+                            <input class="form-control" type="text" placeholder="Enter Contact Person">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Contact Email ID<span style="color: red">*</span></label>
+                            <input class="form-control" type="text" placeholder="Enter Contact Email ID">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Contact Number<span style="color: red">*</span></label>
+                            <input class="form-control" type="text" placeholder="Enter Contact Number
+">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Industry CategoryId <span style="color: red">*</span></label>
+                            <select class="form-select" required>
+                                <option selected disabled value="">Choose...Template</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">
+                                Company Name  <span style="color: red">*</span>
+                            </label>
+                            <input type="date" class="form-control" placeholder="Enter  Company Name" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="formFile" class="form-label">
+                                Company Contact No
+                                <span style="color: red">*</span>
+                            </label>
+                            <input class="form-control" type="text" placeholder="Enter Company Contact No" maxlength="10">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Address<span style="color: red">*</span></label>
+                            <TEXTAREA class="form-control" type="TEXT" placeholder="Enter Address"></TEXTAREA>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label"> Pincode<span style="color: red">*</span></label>
+                            <input class="form-control" type="text" placeholder="Enter Pincode" maxlength="6" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="formFile" class="form-label">
+                                State<span style="color: red">*</span>
+                            </label>
+                            <input class="form-control" type="text" placeholder="State" readonly="TRUE" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">City <span style="color: red">*</span></label>
+                            <input class="form-control" type="text" placeholder="City" readonly="TRUE" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Designation <span style="color: red">*</span></label>
+                            <input class="form-control" type="text" placeholder="Designation">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">WebSite  <span style="color: red">*</span></label>
+                            <INPUT class="form-control" type="text" placeholder="Enter WebSite " />
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">SkypeId <span style="color: red">*</span></label>
+                            <input class="form-control" type="text" placeholder="SkypeId" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">FacebookId <span style="color: red">*</span></label>
+                            <input class="form-control" type="text" placeholder="FacebookId">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">TwitterId  <span style="color: red">*</span></label>
+                            <INPUT class="form-control" type="text" placeholder="Enter TwitterId " />
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">LinkedInId <span style="color: red">*</span></label>
+                            <input class="form-control" type="text" placeholder="LinkedInId" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">ApproximateEmployee <span style="color: red">*</span></label>
+                            <input class="form-control" type="text" placeholder="Enter Approximate Employee
+">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Approximate Company TurnOver <span style="color: red">*</span></label>
+                            <INPUT class="form-control" type="text" placeholder="Enter Approximate Company TurnOver " />
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">FirstInstruction Date <span style="color: red">*</span></label>
+                            <input class="form-control" type="date" placeholder="LinkedInId" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Expected Product Category <span style="color: red">*</span></label>
+                            <select class="form-select" required>
+                                <option selected disabled value="">Choose...Template</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Source <span style="color: red">*</span></label>
+                            <select class="form-select" required>
+                                <option selected disabled value="">Choose...Template</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Executive Name <span style="color: red">*</span></label>
+                            <select class="form-select" required>
+                                <option selected disabled value="">Choose...Template</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Mode of InterAction <span style="color: red">*</span></label>
+                            <select class="form-select" required>
+                                <option selected disabled value="">Choose...Template</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Followup Date <span style="color: red">*</span></label>
+                            <input class="form-control" type="date" placeholder="LinkedInId" />
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Description<span style="color: red">*</span></label>
+                            <textarea class="form-control" type="date" placeholder="Description"></textarea>
+                        </div>
+                    </div>
+
+                    <br />
+                    <div class="row">
+                        <div class="col-md-9">
+                            <input type="submit" name="Save" text="Save" class="btn btn-primary" value="Save" />
+                            <a href="/Master/CategoryMaster" class="btn btn-dark">Reset</a>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

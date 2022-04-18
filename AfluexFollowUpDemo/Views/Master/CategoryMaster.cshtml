@@ -1,0 +1,112 @@
+﻿@model AfluexFollowUpDemo.Models.Master
+@{
+    ViewBag.Title = "CategoryMaster";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+    <div class="breadcrumb-title pe-3">Master</div>
+    <div class="ps-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 p-0">
+                <li class="breadcrumb-item">
+                    <a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page"> Category</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<hr/>
+<!--end breadcrumb-->
+
+<div class="row">
+@using (Html.BeginForm("CategoryMaster", "Master", FormMethod.Post, new { @id = "SignUpForm", ecntype = "multipart/form-data" }))
+{
+    <div class="col-xl-12 mx-auto">
+        <div class="card">
+             <div class="card-body">
+                    @Html.HiddenFor(m => m.Pk_CategoryId)
+                    @*<input type="hidden" value="@Model.Pk_CategoryId" />*@
+                    <div class="border p-4 rounded">
+                        @if (@TempData["Success"] != null)
+                        {
+                            <div class="alert border-0 bg-success alert-dismissible fade show py-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="fs-3 text-white">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                    </div>
+                                    <div class="ms-3">
+                                        <div class="text-white">@TempData["Success"]!</div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        @if (@TempData["Error"] != null)
+                        {
+                            <div class="alert border-0 bg-danger alert-dismissible fade show py-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="fs-3 text-white">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                    </div>
+                                    <div class="ms-3">
+                                        <div class="text-white">@TempData["Error"]!</div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        <div class="row mb-3">
+                            <label for="inputEnterYourName" class="col-sm-3 col-form-label">Category Name <span style="color: red">*</span></label>
+                            <div class="col-sm-6">
+                               @Html.TextBoxFor(m => m.CategoryName, new { @class = "form-control", @placeholder= " Enter Category Name" })
+                                @*<input type="text" class="form-control" id="CategoryName" placeholder="Enter Category Name" name="CategoryName">*@
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"></label>
+                            <div class="col-sm-9">
+                                @if (Model.Pk_CategoryId != null)
+                                {
+                                    <input type="submit" value="Update " class="btn btn-success" name="btnUpdate" onclick="return validateservice();" />
+
+                                }
+                                else
+                                {
+
+
+                                    <input type="submit" name="btnSave" text="Save" class="btn btn-primary" value="Save" onclick = "return validateservice();" />
+                                }
+                                 <a href="/Master/CategoryMaster" class="btn btn-dark">Reset</a>
+                                <a href="/Master/CategoryList" class="btn btn-info">Back To List</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    </div>
+    }
+</div>
+<script>
+    function validateservice()
+    {
+        $(".errortext").removeClass("errortext");
+        if ($('#CategoryName').val() == '') {
+            $("#CategoryName").addClass('errortext');
+            $('#CategoryName').focus();
+            return false;
+        }
+
+        return true;
+    }
+</script>
+<style>
+    .errortext {
+        border: 3px solid #dc3545;
+        border-color: #f7a5a5;
+    }
+</style>
+

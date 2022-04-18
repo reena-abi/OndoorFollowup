@@ -1,0 +1,316 @@
+﻿@model AfluexFollowUpDemo.Models.Master
+@{
+    ViewBag.Title = "SendEmail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+    <div class="breadcrumb-title pe-3">Master</div>
+    <div class="ps-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 p-0">
+                <li class="breadcrumb-item">
+                    <a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Send Email</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<hr />
+
+@using (Html.BeginForm("SendEmail", "Master", FormMethod.Post, new { @id = "signupForm", enctype = "multipart/form-data" }))
+{
+<div class="card">
+    <div class="card-header bg-dark text-white py-2 cursor-pointer">
+        <div class="d-flex align-items-center">
+            <div class="compose-mail-title">Send Email</div>
+            @*<div class="compose-mail-close ms-auto">x</div>*@
+            <a href="/Master/AddEmailTemplate" class="compose-mail-close ms-auto btn btn-dark">Add New Template</a>
+            <a href="/Master/EmailMaster" class="compose-mail-close ms-auto btn btn-dark">Email Master</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="email-form">
+            @if (@TempData["Success"] != null)
+            {
+                <div class="alert border-0 bg-success alert-dismissible fade show py-2">
+                    <div class="d-flex align-items-center">
+                        <div class="fs-3 text-white">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="ms-3">
+                            <div class="text-white">@TempData["Success"]!</div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            @if (@TempData["Error"] != null)
+            {
+                <div class="alert border-0 bg-danger alert-dismissible fade show py-2">
+                    <div class="d-flex align-items-center">
+                        <div class="fs-3 text-white">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <div class="ms-3">
+                            <div class="text-white">@TempData["Error"]!</div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            <div class="row" style="display:none">
+                <div class="col-md-6 form-group">
+                    <label>Sender Email</label>
+                    @Html.TextBoxFor(m => m.SenderEmailDisplay, new { @class = "form-control", @placeholder = "Sender Email", @readonly = "readonly" })
+                    @Html.HiddenFor(m => m.SenderEmail)
+                </div>
+                <div class="col-md-6 form-group">
+                    <label>Password</label>
+                    @Html.PasswordFor(m => m.SenderPassword, new { @class = "form-control", @placeholder = "Sender Password", @value = "Afluex@123", @readonly = "readonly" })
+                </div>
+            </div>
+           <div class="row">
+               <div class="col-md-6 mb-3">
+                   <label class="form-label">Select Template </label>
+
+                   @Html.DropDownListFor(m => m.PK_TemplateID, new SelectList(ViewBag.ddlTemplates, "Value", "Text"), new { @class = "form-select", onchange = "return templateChange();" })
+                  
+               </div>
+              
+               <div class="col-md-6">
+                   <label for="formFile" class="form-label">Select File</label>
+                  
+                   <input type="file" name="postedfile" id="postedfile" class="form-control" />
+               </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Subject</label>
+                    @Html.TextBoxFor(m => m.Subject, new { @class = "form-control", @placeholder = "Subject of Email" })
+                   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label">Body</label>
+                    <div id="emailbody" class="click2edit"></div>
+                    @Html.HiddenFor(m => m.EmailBodyHTML)
+
+                </div>
+            </div>
+            <br />
+            <div class="mb-0">
+                <div class="d-flex align-items-center">
+                    <div class="">
+                        <div class="btn-group">
+                            <input type="submit" value="Send Email" name="btnSendEmail" class="btn btn-sm btn-success" onclick="return validateForm();" />
+                        </div>
+                    </div>
+
+                    <div class="ms-auto">
+                        <a href="/Master/SendEmail" class="btn btn-dark">
+                            Reset
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+            <table id="t1" class="table table-striped table-bordered display">
+                <thead>
+                    <tr>
+                        <th><INPUT type="checkbox" onchange="checkAll(this)" name="chk[]" id="check1" /> Select All
+                           
+                        </th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        if (Model.lstVendor != null)
+                        {
+                            var i = 0;
+                            foreach (var item in Model.lstVendor)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="chkEmail_@i"  />
+                                    </td>
+                                    <td>@item.Name</td>
+                                    <td>
+                                        @item.Email
+                                        <input type="text" value="@item.Email" name="txtEmail_@i" readonly="readonly" style="display:none" />
+                                    </td>
+                                    <td>@item.Description</td>
+                                </tr>
+                                i++;
+                            }
+                            <input type="hidden" name="hdRows" id="hdRows" value="@i" />
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+</div>
+  
+<!--end compose mail-->
+<!--start email overlay-->
+<div class="overlay email-toggle-btn-mobile"></div>
+}
+    <style>
+        .errortext {
+            border: 3px solid #dc3545;
+            border-color: #f7a5a5;
+        }
+    </style>
+
+    <script src="../../assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#divload").css({ 'display': 'none' });
+
+            $('#emailbody').summernote(
+            {
+                height: 150,
+                toolbar: [
+                  // [groupName, [list of button]]
+                  ['style', ['bold', 'italic', 'underline', 'clear']],
+                  ['font', ['strikethrough', 'superscript', 'subscript']],
+                  ['fontsize', ['fontsize']],
+                  ['para', ['ul', 'ol', 'paragraph']],
+                  ['height', ['height']]
+                ]
+            });
+        });
+
+        function templateChange() {
+            var templateID = $('#PK_TemplateID').val();
+
+            $.ajax({
+                url: '/Master/TemplateChange', type: 'post', dataType: 'json',
+                data: { 'tid': templateID },
+                success: function (data) {
+                    $("#divload").css({ 'display': 'none' });
+                    if (data.Result == "1") {
+                        $('#Subject').val(data.Subject);
+                        $('#EmailBodyHTML').val(data.Body);
+                        $('#postedfile').val(data.SelectedFilePath);
+                        var dd = $("#EmailBodyHTML").val();
+                        $('#emailbody').summernote('code', data.Body);
+                    }
+                    else {
+                        alert(data.Result);
+                    }
+                }
+            });
+        }
+
+        function validateForm() {
+            debugger;
+            var emailBodyHTML = $('#emailbody').summernote('code');
+            var l1 = document.getElementById("check1");
+            var text = document.getElementById("text");
+            $('#EmailBodyHTML').val(emailBodyHTML);
+
+            $(".errortext").removeClass("errortext");
+            if ($('#PK_TemplateID').val() == '0') {
+                $("#PK_TemplateID").addClass('errortext');
+                $('#PK_TemplateID').focus();
+                return false;
+            }
+            if ($('#Subject').val() == '') {
+                $("#Subject").addClass('errortext');
+                $('#Subject').focus();
+                return false;
+            }
+           
+            if ($('#Body').val() == '') {
+                $("#Body").addClass('errortext');
+                $('#Body').focus();
+                return false;
+            }
+            debugger;
+            if ($('input[type=checkbox]:checked').length == 0) {
+                alert("ERROR! Please select Email ID select all or  one checkbox");
+                return false;
+            }
+              //if (l1.checked == false) {
+              //    alert('Please select Email ID all or any one!');
+              //  return false;
+              //}
+              //else{
+              //   //lert('select all or any one!');
+              //    return true
+              //}
+            $("#divload").css({ 'display': '' });
+        }
+         
+        function validateForm() {
+            if ($('input[type=checkbox]:checked').length == 0) {
+                alert("ERROR! Please select at least one checkbox");
+                return false;
+            }
+            $(".errortext").removeClass("errortext");
+            if ($('#PK_TemplateID').val() == '0') {
+                $("#PK_TemplateID").addClass('errortext');
+                $('#PK_TemplateID').focus();
+                return false;
+            }
+            if ($('#Subject').val() == '') {
+                $("#Subject").addClass('errortext');
+                $('#Subject').focus();
+                return false;
+            }
+
+            if ($('#Body').val() == '') {
+                $("#Body").addClass('errortext');
+                $('#Body').focus();
+                return false;
+            }
+        }
+        function checkAll(ele) {
+            debugger
+            var checkboxes = document.getElementsByTagName('input');
+           
+            if (ele.checked) {
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].type == 'checkbox') {
+                        checkboxes[i].checked = true;
+                    }
+                }
+            } else {
+                for (var i = 0; i < checkboxes.length; i++) {
+                    console.log(i)
+                    if (checkboxes[i].type == 'checkbox') {
+                        checkboxes[i].checked = false;
+                    }
+                }
+            }
+        }
+    </script>
+@*<script type="text/javascript">
+    $(document).ready(function () {
+        $.checker();
+
+        $('input[type="checkbox"]').click(function () {
+            if ($(this).is(':checked')) {
+                $('input[name="CreateSelectionAction"]').removeAttr('disabled');
+            } else {
+                $.checker();
+            }
+        });
+    });
+</script>*@

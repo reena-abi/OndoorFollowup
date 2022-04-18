@@ -1,0 +1,160 @@
+﻿
+@{
+    ViewBag.Title = "AddLead";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-xl-12 mx-auto">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="border p-4 rounded">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Prospect Name  <span style="color: red">*</span></label>
+                            <select class="form-select" required>
+                                <option selected disabled value="">Choose...Template</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Contact Email ID<span style="color: red">*</span></label>
+                            <input class="form-control" type="text" placeholder="Enter Contact Email ID">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Contact Number<span style="color: red">*</span></label>
+                            <input class="form-control" type="text" placeholder="Enter Contact Number
+">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Company Name <span style="color: red">*</span></label>
+                            <input class="form-control" type="text" placeholder="Enter Company Name">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label"> Company Address
+ <span style="color: red">*</span></label>
+                            <input type="date" class="form-control" placeholder="Enter  Company Address" />
+                        </div>
+                        <div class="col-md-4">
+                            <label for="formFile" class="form-label">
+                                Company Contact No
+                                <span style="color: red">*</span>
+                            </label>
+                            <input class="form-control" type="text" placeholder="Enter Company Contact No">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">First Date Of Interraction<span style="color: red">*</span></label>
+                            <input class="form-control" type="date" placeholder="Enter Mode Of InterAction">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label"> Expected Product Category<span style="color: red">*</span></label>
+                            <select class="form-select" required>
+                                <option selected disabled value="">Choose...Template</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="formFile" class="form-label">
+                                Source Of Data<span style="color: red">*</span>
+                            </label>
+                            <input class="form-control" type="text" placeholder="Submitted By Name">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="form-label">Executive Name <span style="color: red">*</span></label>
+                            <select class="form-select" required>
+                                <option selected disabled value="">Choose...Template</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Mode Of InterAction* <span style="color: red">*</span></label>
+                            <select class="form-select" required>
+                                <option selected disabled value="">Choose...Template</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">FollowUpdate  <span style="color: red">*</span></label>
+                            <INPUT class="form-control" type="DATE" placeholder="Enter Remark "/>
+                        </div>
+
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-9">
+                            <input type="submit" name="Save" text="Save" class="btn btn-primary" value="Save" />
+                            <a href="/Master/CategoryMaster" class="btn btn-dark">Reset</a>
+                           
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <h5 class="mb-0">DWR Master Details</h5>
+                        <form class="ms-auto position-relative">
+                            <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-search"></i></div>
+                            <input class="form-control ps-5" type="text" placeholder="search">
+                        </form>
+                    </div>
+                    <div class="table-responsive mt-3">
+                        <table class="table table-bordered">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th>S.N</th>
+                                    <th>Prospect Name</th>
+                                    <th>Lead</th>
+                                    <th>Next Followup Date</th>
+                                    <th>Remark</th>
+                                    <th>Business Chance</th>
+                                    <th>Mode Of Interaction</th>
+                                    <th>Executive Name</th>
+                                    <th>Meeting Date And Time</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3 cursor-pointer">
+                                            <img src="assets/images/avatars/avatar-1.png" class="rounded-circle" width="44" height="44" alt="">
+                                            <div class="">
+                                                <p class="mb-0">Thomas Hardy</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>89 Chicago UK</td>
+                                    <td>Chicago</td>
+                                    <td>8574201</td>
+                                    <td>United Kingdom</td>
+                                    <td>Chicago</td>
+                                    <td>8574201</td>
+                                    <td>United Kingdom</td>
+                                    <td>
+                                        <div class="table-actions d-flex align-items-center gap-3 fs-6">
+                                            <a href="javascript:;" class="text-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Views"><i class="bi bi-eye-fill"></i></a>
+                                            <a href="javascript:;" class="text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit"><i class="bi bi-pencil-fill"></i></a>
+                                            <a href="javascript:;" class="text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete"><i class="bi bi-trash-fill"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+

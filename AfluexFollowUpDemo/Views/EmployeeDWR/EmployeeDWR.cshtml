@@ -1,0 +1,402 @@
+﻿@model AfluexFollowUpDemo.Models.EmployeeDWR
+@{
+    ViewBag.Title = "EmployeeDWR";
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+    <div class="breadcrumb-title pe-3">DWR</div>
+    <div class="ps-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 p-0">
+                <li class="breadcrumb-item">
+                    <a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">DWR</li>
+            </ol>
+        </nav>
+    </div>
+    <hr/>
+</div><div class="row">
+    @using (Html.BeginForm("EmployeeDWR", "EmployeeDWR", FormMethod.Post, new { @id = "signup-form",enctype="multipart-form"  }))
+    {
+    <div class="col-xl-12 mx-auto">
+      
+        <div class="card">
+            <div class="card-body">
+                <div class="border p-4 rounded">
+                    @if (@TempData["Error"] != null)
+                    {
+                        <div class="alert border-0 bg-danger alert-dismissible fade show py-2">
+                            <div class="d-flex align-items-center">
+                                <div class="fs-3 text-white">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <div class="text-white">@TempData["Error"]!</div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+                    @if (@TempData["Success"] != null)
+                    {
+                        <div class="alert border-0 bg-success alert-dismissible fade show py-2">
+                            <div class="d-flex align-items-center">
+                                <div class="fs-3 text-white">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <div class="text-white">@TempData["Success"]!</div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+                    <div class="row">
+                        <div class="col-md-4 mt-2">
+                            <label class="form-label">Prospect Name <span style="color: red">*</span></label>
+                           @Html.DropDownListFor(q => q.Fk_ProcpectId, new SelectList(ViewBag.ddlProspect, "Value", "Text"), new { @class = "form-select", @OnChange = "return OnchangeLead();" })
+                        </div>
+                        <div class="col-md-4 mt-2"> <label class="form-label">Lead<span style="color: red">*</span></label>
+                            <span id="spContactEmailID"></span>
+                            @Html.DropDownListFor(q => q.Fk_LeadId, new SelectList(ViewBag.ddlLead, "Value", "Text"), new { @class = "form-select", @onchange = "return GetDWRdetails();" })
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <label class="form-label">Executive Name</label>
+                            <label class="form-control" id="spFk_ExecutiveId">&nbsp;</label>
+                            @Html.DisplayFor(q => q.Fk_ExecutiveId)
+                        </div>
+                  
+                        <div class="col-md-4 mt-2">
+                            <label class="form-label">Source Name</label>
+                            <label class="form-control" id="spFk_SourceId">&nbsp;</label>
+                           
+                            @Html.DisplayFor(q => q.Fk_SourceId)
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <label class="form-label">First Instruction Date </label>
+                            <label class="form-control" id="spFirstInstructionDate">&nbsp;</label>
+                             @Html.DisplayFor(q => q.FirstInstructionDate)
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <label for="formFile" class="form-label"> Followup Date</label>
+                            <label class="form-control" id="spFollowupDate">&nbsp;</label>
+                          
+                             @Html.DisplayFor(q => q.FollowupDate)
+                        </div>
+                   
+                        <div class="col-md-4 mt-2">
+                            <label class="form-label">Inter Action Name</label>
+                            <label class="form-control" id="spFk_ModeInterActionId">&nbsp;</label>
+                             @Html.DisplayFor(q => q.Fk_ModeInterActionId)
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <label class="form-label">Next Followup date<span style="color: red">*</span></label>
+                            @Html.HiddenFor(m => m.Pk_DwrId)
+                             @Html.TextBoxFor(f => f.NextFollowupDate, new { @class = "form-control", @Placeholder = "Next Followup Date", @ReadOnly = "ReadOnly" })
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <label for="formFile" class="form-label">Remark<span style="color: red">*</span>
+                            </label>
+                          @Html.TextAreaFor(f => f.Remark, new { @class = "form-control", @Placeholder = "Description " })
+                        </div>
+                   
+                        <div class="col-md-4 mt-2">
+                            <label class="form-label">Mode Of Inter Action <span style="color: red">*</span></label>
+                        
+                            @Html.DropDownListFor(q => q.Fk_ModeInterActionId, new SelectList(ViewBag.ddlInterAction, "Value", "Text"), new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <label class="form-label">Business Chance <span style="color: red">*</span></label>
+
+                            @Html.DropDownListFor(q => q.Fk_BusinessChanceId, new SelectList(ViewBag.ddlChance, "Value", "Text"), new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <label class="form-label">Submitted By Name <span style="color: red">*</span></label>
+                            @Html.DropDownListFor(q => q.Fk_ExecutiveId, new SelectList(ViewBag.ddlName, "Value", "Text"), new { @class = "form-control" })
+                        </div>
+
+                  
+                        <div class="col-md-4 mt-2">
+                            <label class="form-label">Meeting Date<span style="color: red">*</span></label>
+                            @Html.TextBoxFor(f => f.MeetingDate, new { @class = "form-control", @Placeholder = "Meeting Date", @ReadOnly = "ReadOnly" })
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <label class="form-label">Meeting Time<span style="color: red">*</span></label>
+                            <input type="time" id="PickUpTime" name="MeetingTime" placeholder="Meeting Time" class="form-control">
+                            @*@Html.TextBoxFor(f => f.MeetingTime, new { @class = "form-control", @Placeholder = "Meeting Time" })*@
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <label class="form-label" style="margin-top: 35px;">&nbsp;</label>
+                            @if (Model != null)
+                            {
+                                <input type="submit" value="Update " class="btn btn-success" name="btnUpdate" onclick="return validateservice();" />
+                            }
+                            else
+                            {
+                                 <input type="submit" value="Save " class="btn btn-success" name="btnSave" onclick="return validateservice();" />
+                               
+                            }
+                            <a href="/EmployeeDWR/EmployeeDWR" class="btn btn-dark">Reset</a>
+
+                        </div>
+                     </div>
+                      
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <h5 class="mb-0">DWR Master Details</h5>
+                            @*<form class="ms-auto position-relative">
+                    <div class="position-absolute top-50 translate-middle-y search-icon px-3"><i class="bi bi-search"></i></div>
+                    <input class="form-control ps-5" type="text" placeholder="search">
+                </form>*@
+                        </div>
+                        <div class="table-responsive mt-3">
+                            <table class="table table-bordered" id="example2">
+                                <thead class="table-secondary">
+                                    <tr>
+                                        <th>Sr.No</th>
+                                        <th>Prospect Name</th>
+                                        <th>Lead </th>
+                                        <th>Next Followup Date</th>
+                                        <th>Remark</th>
+                                        <th>Business Chance</th>
+                                        <th>Mode Of Interaction</th>
+                                        <th>Executive Name</th>
+                                        <th>Meeting Date And Time </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="plccharge"></tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    }
+</div>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+
+<script>
+           $('#InterractionDate').datepicker({
+            dateFormat: 'dd/mm/yy',
+            minDate: 0,
+            maxDate: '+1Y+6M',
+})
+
+           function GetDWRdetails() {
+
+               var value = $('#Fk_LeadId').val();
+
+               $.ajax({
+                   url: '/EmployeeDWR/GetLeadDetailsByID', type: 'post', dataType: 'json',
+                   data: { 'Pk_LeadeId': value }, success: function (data) {
+                       if (data.Result == "Yes") {
+                           document.getElementById("spFk_ExecutiveId").innerText = data.Fk_ExecutiveId;
+                           document.getElementById("spFk_SourceId").innerText = data.Fk_SourceId;
+                           document.getElementById("spFirstInstructionDate").innerText = data.FirstInstructionDate;
+                           document.getElementById("spFollowupDate").innerText = data.FollowupDate;
+                           document.getElementById("spFk_ModeInterActionId").innerText = data.Fk_ModeInterActionId;
+                           $('#ContactEmailId').val() = data.ContactEmailId;
+                           $('#ContactNo').val(data.ContactNo);
+                           $('#CompanyName').val(data.CompanyName);
+                           $('#Address').val(data.Address);
+                           $('#CompanyContactNo').val(data.CompanyContactNo);
+                       }
+                       else {
+
+                           $('#Pk_ProcpectId').val('');
+                           $('#ContactEmailId').val('');
+                           $('#ContactNo').val('');
+                           $('#CompanyName').val('');
+                           $('#Address').val('');
+                           $('#CompanyContactNo').val('');
+
+                       }
+                   }
+
+               });
+
+               var value = $('#Fk_LeadId').val();
+
+               var tr = [];
+               var j = 1;
+               $.ajax({
+                   type: "GET",
+                   url: "/EmployeeDWR/GetEmployeeDWRList",
+
+                   dataType: "json",
+                   data: { Pk_DwrId: value },
+                   success: function (data) {
+
+
+                       $('#plccharge').empty();
+                       for (var i = 0; i < data.lstDWR.length; i++) {
+                           tr.push('<tr>');
+                           tr.push("<td>" + j + "</td>");
+
+                           tr.push("<td><label id='txtFk_ProcpectId " + i + "' name='txtFk_ProcpectId " + i + "'>" + data.lstDWR[i].Fk_ProcpectId + "  </label></td>");
+                           tr.push("<td><label id='txtFk_LeadId " + i + "' name='Fk_LeadId " + i + "' >" + data.lstDWR[i].Fk_LeadId + " </label></td>");
+                           tr.push("<td><label id='txtNextFollowupDate " + i + "' name='txtNextFollowupDate " + i + "'>" + data.lstDWR[i].NextFollowupDate + "  </label></td>");
+                           tr.push("<td><label id='txtReemark " + i + "' name='txtReemark " + i + "'> " + data.lstDWR[i].Remark + " </label></td>");
+                           tr.push("<td><label id='txtFk_BusinessChanceId " + i + "' name='txtFk_BusinessChanceId " + i + "'> " + data.lstDWR[i].Fk_BusinessChanceId + "</label></td>");
+                           tr.push("<td><label id='txtFk_ModeInterActionId " + i + "' name='txtFk_ModeInterActionId " + i + "'>" + data.lstDWR[i].Fk_ModeInterActionId + "</label></td>");
+                           tr.push("<td><label id='txtFk_ExecutiveId " + i + "' name='txtFk_ExecutiveId " + i + "' >" + data.lstDWR[i].Fk_ExecutiveId + "</label></td>");
+                           tr.push("<td><label id='txtMeetingDatetime  " + i + "' name='txtMeetingDatetime " + i + "' >" + data.lstDWR[i].MeetingDate + data.lstDWR[i].MeetingTime + "</label></td>");
+                           tr.push("<td style='display:none'><input type='hidden' value='" + data.lstDWR[i].Pk_DwrId + "' id='unitid_ " + i + "' name='unitid_ " + i + "'></td>");
+                           tr.push('</tr>');
+                           j++;
+
+                       }
+                       tr.push('<tr style="display:none">');
+                       tr.push("<td><input type='hidden' value='" + j + "' id='hdrows' name='hdrows'></td>");
+                       tr.push('</tr>');
+                       $('#plccharge').append($(tr.join('')));
+
+                   },
+                   error: function (xhr, status, error) {
+
+                   }
+               });
+           }
+           function GetLeadDetailsByID() {
+
+               var value = $('#Pk_LeadeId').val();
+
+               $.ajax({
+                   url: '/EmployeeDWR/GetLeadDetailsByID', type: 'post', dataType: 'json',
+                   data: { 'Pk_LeadeId': value }, success: function (data) {
+                       if (data.Result == "Yes") {
+                           document.getElementById("spFk_ExecutiveId").innerText = data.Fk_ExecutiveId;
+                           document.getElementById("spFk_SourceId").innerText = data.Fk_SourceId;
+                           document.getElementById("spFirstInstructionDate").innerText = data.FirstInstructionDate;
+                           document.getElementById("spFollowupDate").innerText = data.FollowupDate;
+                           document.getElementById("spFk_ModeInterActionId").innerText = data.Fk_ModeInterActionId;
+                           $('#ContactEmailId').val() = data.ContactEmailId;
+                           $('#ContactNo').val(data.ContactNo);
+                           $('#CompanyName').val(data.CompanyName);
+                           $('#Address').val(data.Address);
+                           $('#CompanyContactNo').val(data.CompanyContactNo);
+
+
+
+                       }
+                       else {
+                           // alert("Invalid Teacher LoginID");
+                           $('#Pk_ProcpectId').val('');
+                           $('#ContactEmailId').val('');
+                           $('#ContactNo').val('');
+                           $('#CompanyName').val('');
+                           $('#Address').val('');
+                           $('#CompanyContactNo').val('');
+
+                       }
+                   }
+
+               });
+
+           }
+
+           function validateservice() {
+               $(".errortext").removeClass("errortext");
+               if ($('#Fk_ProcpectId').val() == '0') {
+                   $("#Fk_ProcpectId").addClass('errortext');
+                   $('#Fk_ProcpectId').focus();
+                   return false;
+               }
+               if ($('#Fk_LeadId').val() == '0') {
+                   $("#Fk_LeadId").addClass('errortext');
+                   $('#Fk_LeadId').focus();
+                   return false;
+               }
+               if ($('#NextFollowupDate').val() == '') {
+                   $("#NextFollowupDate").addClass('errortext');
+                   $('#NextFollowupDate').focus();
+                   return false;
+               }
+               if ($('#Remark').val() == '') {
+                   $("#Remark").addClass('errortext');
+                   $('#Remark').focus();
+                   return false;
+               }
+               if ($('#Fk_ModeInterActionId').val() == '0') {
+                   $("#Fk_ModeInterActionId").addClass('errortext');
+                   $('#Fk_ModeInterActionId').focus();
+                   return false;
+               }
+               if ($('#Fk_BusinessChanceId').val() == '0') {
+                   $("#Fk_BusinessChanceId").addClass('errortext');
+                   $('#Fk_BusinessChanceId').focus();
+                   return false;
+               }
+               if ($('#Fk_ExecutiveId').val() == '0') {
+                   $("#Fk_ExecutiveId").addClass('errortext');
+                   $('#Fk_ExecutiveId').focus();
+                   return false;
+               }
+               if ($('#MeetingDate').val() == '') {
+                   $("#MeetingDate").addClass('errortext');
+                   $('#MeetingDate').focus();
+                   return false;
+               }
+               if ($('#MeetingTime').val() == '') {
+                   $("#MeetingTime").addClass('errortext');
+                   $('#MeetingTime').focus();
+                   return false;
+               }
+
+
+               return true;
+           }
+
+           function OnchangeLead() {
+               var value = $('#Fk_ProcpectId').val();
+               $.ajax({
+                   url: "/EmployeeDWR/GetLeadByProspect",
+                   Type: "Get",
+                   DataType: "JSON",
+                   data: { Fk_ProcpectId: value },
+                   success: function (data) {
+
+                       $("#Fk_LeadId").html("");
+                       $("#Fk_LeadId").empty();
+                       $("#Fk_LeadId").append(
+                             $('<option></option>').val(0).html('--Select Lead--'));
+                       $.each(data.ddlLead, function (index, Shelfcount) {
+                           $("#Fk_LeadId").append(
+                                 $('<option></option>').val(Shelfcount.Value).html(Shelfcount.Text));
+
+                       });
+                   }
+               });
+
+           }
+
+</script>
+<script>
+   
+    $('#MeetingDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeMonth: true,
+        changeYear: true,
+
+    });
+    $('#NextFollowupDate').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeMonth: true,
+        changeYear: true,
+    });
+  
+</script>
+
+
+<style>
+    .errortext {
+        border: 3px solid #dc3545;
+        border-color: #f7a5a5;
+    }
+</style>
